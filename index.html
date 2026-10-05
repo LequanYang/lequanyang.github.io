@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" class="lang-en no-js">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+
+<!-- ============================================================
+     ⚠️ 改文字 → js/i18n.js（中英文都在那一个文件里）
+         换照片 → 替换 assets/myfig.jpg
+         换简历 → 替换 assets/简历-杨乐泉.pdf
+     ============================================================ -->
+
+<title>Lequan Yang (杨乐泉)</title>
+<meta name="description" content="Lequan Yang (杨乐泉) — undergraduate researcher working on computer vision, multimodal learning, and LLM agents.">
+<meta name="author" content="Lequan Yang 杨乐泉">
+<meta name="keywords" content="Lequan Yang, 杨乐泉, computer vision, multimodal learning, LLM agent, diffusion models, vision transformer">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Lequan Yang (杨乐泉)">
+<meta property="og:description" content="Undergraduate researcher working on computer vision, multimodal learning, and LLM agents.">
+<meta property="og:image" content="assets/myfig.jpg">
+
+<!-- 标签页小图标直接内联在这里，不依赖 assets 里的文件，就不会被误删 -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%232f5cd9'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Helvetica,Arial,sans-serif' font-size='28' font-weight='700' fill='%23ffffff'%3ELY%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+
+<!-- 首屏渲染前定好「语言」和「主题」，避免闪烁。必须在 CSS 之前执行完。
+     语言优先级：?lang=zh / ?lang=en  >  上次选择  >  英文
+     主题优先级：?theme=light / ?theme=dark  >  上次选择  >  按当前时间自动 -->
+<script>
+  (function () {
+    var html = document.documentElement;
+    html.classList.remove('no-js');
+
+    /* ---- 语言 ---- */
+    var lang = 'en';
+    try {
+      var langFromUrl = (location.search.match(/[?&]lang=(en|zh)(?:&|$)/) || [])[1];
+      var savedLang = localStorage.getItem('ly-lang');
+      if (langFromUrl) lang = langFromUrl;
+      else if (savedLang === 'zh' || savedLang === 'en') lang = savedLang;
+    } catch (e) { /* 隐私模式下 localStorage 不可用，忽略 */ }
+    html.classList.remove('lang-en', 'lang-zh');
+    html.classList.add('lang-' + lang);
+    html.lang = lang === 'zh' ? 'zh-CN' : 'en';
+
+    /* ---- 主题 ---- */
+    var theme = 'light';
+    try {
+      var themeFromUrl = (location.search.match(/[?&]theme=(light|dark)(?:&|$)/) || [])[1];
+      var savedTheme = localStorage.getItem('ly-theme');
+      if (themeFromUrl) {
+        theme = themeFromUrl;
+      } else if (savedTheme === 'light' || savedTheme === 'dark') {
+        theme = savedTheme;
+      } else {
+        /* 没存过偏好：白天 6:00–17:59 用浅色，18:00–次日 5:59 用深色 */
+        var hour = new Date().getHours();
+        theme = (hour >= 6 && hour < 18) ? 'light' : 'dark';
+      }
+    } catch (e) { theme = 'light'; }
+    html.classList.remove('theme-light', 'theme-dark');
+    html.classList.add('theme-' + theme);
+  })();
+</script>
+</head>
+
+<body>
+<a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
+
+<!-- ==================== 顶栏（导航居中，左右各一个按钮） ==================== -->
+<header class="site-header" id="top">
+  <div class="container header-inner">
+    <div class="header-left">
+      <button class="theme-toggle" id="themeToggle" type="button"
+              data-i18n-attr="aria-label:theme.toDark" aria-label="Switch to dark mode">
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 13.2A8.5 8.5 0 1 1 10.8 3.5a6.6 6.6 0 0 0 9.7 9.7Z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.1"/><path d="M12 2.2v2.4M12 19.4v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.2 12h2.4M19.4 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>
+      </button>
+    </div>
+
+    <nav class="nav" id="nav" aria-label="Main navigation" data-i18n-attr="aria-label:nav.aria">
+      <ul class="nav-list">
+        <li><a href="#about" data-i18n="nav.about">About</a></li>
+        <li><a href="#research" data-i18n="nav.research">Research</a></li>
+        <li><a href="#awards" data-i18n="nav.awards">Awards</a></li>
+        <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
+        <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <button class="lang-toggle" id="langToggle" type="button"
+              data-i18n-attr="aria-label:lang.toggleLabel" aria-label="Switch language">
+        <span class="lang-toggle-text" data-i18n="lang.toggleText">中文</span>
+      </button>
+      <button class="nav-toggle" id="navToggle" type="button"
+              aria-expanded="false" aria-controls="nav"
+              data-i18n-attr="aria-label:nav.menu" aria-label="Menu">
+        <span class="nav-toggle-bar"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ==================== 首屏 ==================== -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container">
+      <div class="hero-inner">
+        <!-- 默认显示生活照 rc.jpg，鼠标移到头像上淡入证件照 myfig.jpg。
+             两张图都在页面加载时就下载，hover 时不会卡顿。
+             换照片就替换 assets/ 里的这两个文件（或改下面的 src）。 -->
+        <div class="hero-photo" data-reveal>
+          <div class="photo-stack">
+            <img class="photo photo-life" src="assets/rc.jpg" width="1279" height="1706"
+                 alt="Lequan Yang in front of the Canton Tower at night"
+                 data-i18n-attr="alt:hero.photoAlt">
+            <img class="photo photo-id" src="assets/myfig.jpg" width="510" height="758"
+                 alt="" aria-hidden="true">
+          </div>
+        </div>
+
+        <div class="hero-copy" data-reveal>
+          <h1 class="display" id="hero-title" data-i18n="hero.name">Lequan Yang</h1>
+          <p class="hero-alt-name" data-i18n="hero.nameAlt" data-alt-lang>杨乐泉</p>
+
+          <p class="hero-role" data-i18n="hero.role">Undergraduate Student in Network Engineering</p>
+          <p class="hero-affil" data-i18n="hero.affiliation">
+            School of Information Engineering, Gansu Minzu Normal University
+          </p>
+
+          <ul class="hero-links">
+            <li>
+              <a href="mailto:ylq041014@163.com">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg>
+                <span data-i18n="hero.link.email">Email</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/LequanYang" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 0 0-.9-2.6c3-.3 6.2-1.5 6.2-6.7A5.2 5.2 0 0 0 19.8 5a4.9 4.9 0 0 0-.1-3.6s-1.1-.4-3.7 1.4a12.7 12.7 0 0 0-6.8 0C6.6 1 5.5 1.4 5.5 1.4A4.9 4.9 0 0 0 5.4 5 5.2 5.2 0 0 0 4 8.8c0 5.2 3.2 6.4 6.2 6.7a3.4 3.4 0 0 0-.9 2.6V21"/></svg>
+                <span>GitHub</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://x.com/lequanyang" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" stroke="none" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                <span>X</span>
+              </a>
+            </li>
+            <!-- 有谷歌学术主页后，把 href 换成你的主页地址即可 -->
+            <li>
+              <a href="https://scholar.google.com/" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 9l10 6 10-6-10-6Z"/><path d="M21.5 9.5v5"/><path d="M6 11.5V17c0 1.5 2.7 3 6 3s6-1.5 6-3v-5.5"/></svg>
+                <span>Google Scholar</span>
+              </a>
+            </li>
+            <li>
+              <a href="assets/简历-杨乐泉.pdf" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z"/><path d="M14 3v5h5"/><path d="M12 12v5m0 0-2-2m2 2 2-2"/></svg>
+                <span data-i18n="hero.link.cv">CV</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="hero-bio" data-reveal data-i18n="hero.bio">
+        I am an undergraduate student in Network Engineering at Gansu Minzu Normal University,
+        graduating in 2027. My research interests lie in computer vision, multimodal learning, and
+        LLM-based agents. I have led student teams to build LLM-powered multimodal systems, and I am
+        currently working on unified vision transformers with geometric priors.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== 关于我 ==================== -->
+  <section class="section" id="about">
+    <div class="container">
+      <header class="section-head" data-reveal>
+        <p class="section-kicker" data-i18n="about.kicker">01 — Profile</p>
+        <h2 class="section-title" data-i18n="about.title">About Me</h2>
+      </header>
+
+      <div class="prose" data-reveal>
+        <p data-i18n="about.p1">
+          I am an undergraduate student in the School of Information Engineering at Gansu Minzu Normal
+          University, majoring in Network Engineering and expected to graduate in June 2027. My work sits
+          between computer vision and multimodal learning: I am interested in how geometric structure can be
+          injected into vision transformers, how diffusion models can be trained more stably, and how large
+          language models can be grounded in embodied devices.
+        </p>
+        <p data-i18n="about.p2">
+          I enjoy leading small teams and turning research ideas into working systems. I led a seven-person
+          team to build a multimodal emotion model for psychological counseling scenarios, and led the design
+          of an end-to-end LLM agent deployed on a robot car. Outside of research, I take part in data mining
+          and innovation competitions, and I like writing code that is fast enough to run on real hardware.
+        </p>
+      </div>
+
+      <div class="edu-card" data-reveal>
+        <div class="edu-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 4 2 9l10 5 10-5-10-5Z"/><path d="M6 11.5V16c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-4.5"/></svg>
+        </div>
+        <div class="edu-body">
+          <p class="edu-period" data-i18n="about.edu.period">2023.08 — 2027.06 (expected)</p>
+          <h3 class="edu-school" data-i18n="about.edu.school">Gansu Minzu Normal University</h3>
+          <p class="edu-major" data-i18n="about.edu.major">
+            B.Eng. in Network Engineering, School of Information Engineering
+          </p>
+          <p class="edu-gpa" data-i18n="about.edu.gpa">GPA 3.0/4.0 — top 10% of the major</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 科研经历 ==================== -->
+  <section class="section section-alt" id="research">
+    <div class="container">
+      <header class="section-head" data-reveal>
+        <p class="section-kicker" data-i18n="research.kicker">02 — Research</p>
+        <h2 class="section-title" data-i18n="research.title">Research Experience</h2>
+        <p class="section-sub" data-i18n="research.sub">Currently under review.</p>
+      </header>
+
+      <ol class="entry-list">
+        <li class="entry" data-reveal>
+          <div class="entry-head">
+            <h3 class="entry-title" data-i18n="research.1.title">
+              Unified Multi-Task Vision Transformer: Zero-Shot Adaptation with Geometric Priors
+            </h3>
+            <span class="entry-period" data-i18n="research.1.period">2025.06 — Present</span>
+          </div>
+          <p class="entry-authors" data-i18n-html="research.1.authors">
+            <strong>Lequan Yang</strong> · First author
+          </p>
+          <p class="entry-venue">
+            <span data-i18n="research.1.venue">NeurIPS 2026</span>
+            <span class="badge badge-review" data-i18n="badge.underReview">Under Review</span>
+          </p>
+          <ul class="entry-points">
+            <li data-i18n="research.1.p1">
+              Proposes a framework spanning visual perception, generation, and world modeling, addressing
+              inconsistent cross-task and cross-time representations in existing systems.
+            </li>
+            <li data-i18n="research.1.p2">
+              Designs spatio-temporal geometry-aligned tokenization that builds geometry-consistent video
+              tokens from 4D cues including depth, surface normals, and motion.
+            </li>
+            <li data-i18n="research.1.p3">
+              Develops geometry-conditioned attention that injects geometric structure into the attention
+              computation, enabling task-adaptive and consistent feature aggregation, and extending to
+              diffusion generation and persistent world modeling.
+            </li>
+            <li data-i18n="research.1.p4">
+              Designs a task prompt encoder that supports natural-language-driven open-vocabulary generalization.
+            </li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ==================== 竞赛获奖 ==================== -->
+  <section class="section" id="awards">
+    <div class="container">
+      <header class="section-head" data-reveal>
+        <p class="section-kicker" data-i18n="awards.kicker">03 — Honors</p>
+        <h2 class="section-title" data-i18n="awards.title">Competitions &amp; Awards</h2>
+      </header>
+
+      <ul class="award-list">
+        <li class="award-item" data-reveal>
+          <span class="award-rank" aria-hidden="true">01</span>
+          <div class="award-body">
+            <h3 class="award-name" data-i18n="award.1.name">
+              “Challenge Cup” Extracurricular Academic &amp; Technological Works Competition
+            </h3>
+            <p class="award-detail">
+              <span class="badge badge-award" data-i18n="award.1.prize">Grand Prize · Provincial</span>
+              <span class="award-role" data-i18n="award.1.role">Team lead</span>
+            </p>
+          </div>
+        </li>
+        <li class="award-item" data-reveal>
+          <span class="award-rank" aria-hidden="true">02</span>
+          <div class="award-body">
+            <h3 class="award-name" data-i18n="award.2.name">Chinese Collegiate Computing Competition</h3>
+            <p class="award-detail">
+              <span class="badge badge-award" data-i18n="award.2.prize">Second Prize · Provincial</span>
+              <span class="award-role" data-i18n="award.2.role">Team lead</span>
+            </p>
+          </div>
+        </li>
+        <li class="award-item" data-reveal>
+          <span class="award-rank" aria-hidden="true">03</span>
+          <div class="award-body">
+            <h3 class="award-name" data-i18n="award.3.name">Gansu Provincial Data Mining Challenge</h3>
+            <p class="award-detail">
+              <span class="badge badge-award" data-i18n="award.3.prize">Second Prize · Provincial</span>
+            </p>
+          </div>
+        </li>
+        <li class="award-item" data-reveal>
+          <span class="award-rank" aria-hidden="true">04</span>
+          <div class="award-body">
+            <h3 class="award-name" data-i18n="award.4.name">China International College Students’ Innovation Competition</h3>
+            <p class="award-detail">
+              <span class="badge badge-award" data-i18n="award.4.prize">Third Prize · Provincial</span>
+            </p>
+          </div>
+        </li>
+        <li class="award-item" data-reveal>
+          <span class="award-rank" aria-hidden="true">05</span>
+          <div class="award-body">
+            <h3 class="award-name" data-i18n="award.5.name">Huang Yanpei Vocational Education Innovation &amp; Entrepreneurship Competition</h3>
+            <p class="award-detail">
+              <span class="badge badge-award" data-i18n="award.5.prize">Third Prize · Provincial</span>
+            </p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ==================== 专业技能 ==================== -->
+  <section class="section section-alt" id="skills">
+    <div class="container">
+      <header class="section-head" data-reveal>
+        <p class="section-kicker" data-i18n="skills.kicker">04 — Skills</p>
+        <h2 class="section-title" data-i18n="skills.title">Technical Skills</h2>
+      </header>
+
+      <!-- 标签名和内容都是 .skills 的直接子元素，
+           这样左列宽度由最长的标签决定，所有标签严格对齐且不折行 -->
+      <div class="skills" data-reveal>
+        <h3 data-i18n="skills.g1.title">CV / LLM Foundations</h3>
+        <div class="skill-body">
+          <div class="tags" data-i18n-list="skills.g1.items">PyTorch, Transformer, ViT, Swin, LoRA, PEFT</div>
+          <p class="skill-note" data-i18n="skills.g1.note">
+            PyTorch and Transformer architectures; principles and training pipelines of mainstream vision
+            backbones including ViT and Swin; efficient fine-tuning with LoRA and PEFT.
+          </p>
+        </div>
+
+        <h3 data-i18n="skills.g2.title">Multi-Task Learning</h3>
+        <div class="skill-body">
+          <div class="tags" data-i18n-list="skills.g2.items">
+            Unified architectures, Task prompt encoding, Zero-shot adaptation, Shared representations
+          </div>
+          <p class="skill-note" data-i18n="skills.g2.note">
+            Unified architecture design, task prompt encoding, zero-shot task adaptation, and
+            parameter-efficient transfer with shared representation learning.
+          </p>
+        </div>
+
+        <h3 data-i18n="skills.g3.title">Engineering &amp; Optimization</h3>
+        <div class="skill-body">
+          <div class="tags" data-i18n-list="skills.g3.items">
+            CUDA / FFT operators, TensorRT FP16, Gradient checkpointing, Mixed precision
+          </div>
+          <p class="skill-note" data-i18n="skills.g3.note">
+            Custom operators, on-device deployment, and memory-efficient training at scale.
+          </p>
+        </div>
+
+        <h3 data-i18n="skills.g4.title">Languages</h3>
+        <div class="skill-body">
+          <div class="tags" data-i18n-list="skills.g4.items">Chinese (native), English</div>
+          <p class="skill-note" data-i18n="skills.g4.note">
+            Comfortable reading and writing technical English for research papers.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 联系方式 ==================== -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="contact-card" data-reveal>
+        <p class="section-kicker" data-i18n="contact.kicker">05 — Contact</p>
+        <h2 class="section-title" data-i18n="contact.title">Get in Touch</h2>
+        <p class="contact-lead" data-i18n="contact.sub">
+          I am happy to discuss research collaborations, internship opportunities, or anything related to
+          computer vision and multimodal learning. Email is the fastest way to reach me.
+        </p>
+        <p class="contact-actions">
+          <a class="btn btn-primary" href="mailto:ylq041014@163.com">ylq041014@163.com</a>
+          <a class="btn" href="mailto:llequanyang@gmail.com">llequanyang@gmail.com</a>
+          <a class="btn" href="assets/简历-杨乐泉.pdf" target="_blank" rel="noopener" data-i18n="hero.link.cv">CV</a>
+        </p>
+        <ul class="contact-links">
+          <li><a href="https://github.com/LequanYang" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://x.com/lequanyang" target="_blank" rel="noopener">X</a></li>
+          <li><a href="https://scholar.google.com/" target="_blank" rel="noopener">Google Scholar</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ==================== 页脚 ==================== -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p><span data-i18n="footer.copyright">© 2026 Lequan Yang. All rights reserved.</span></p>
+    <p class="footer-meta"><span data-i18n="footer.updated">Last updated: October 2026</span></p>
+  </div>
+</footer>
+
+<button class="to-top" id="toTop" type="button"
+        data-i18n-attr="aria-label:nav.toTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script src="js/i18n.js" defer></script>
+<script src="js/main.js" defer></script>
+</body>
+</html>
